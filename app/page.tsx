@@ -196,6 +196,22 @@ export default function Home() {
             </Link>
           </div>
         </section>
+
+        {/* GM CTA */}
+        <section className="bg-indigo-600 py-16">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <h2 className="text-3xl font-bold text-white mb-3">Become a Professional Dungeon Master</h2>
+            <p className="text-indigo-100 text-base max-w-2xl mx-auto mb-8">
+              Want to run paid games and grow your table? See how QuestBoard supports pro GMs.
+            </p>
+            <Link
+              href="/become-a-pro-dungeon-master"
+              className="inline-block bg-white hover:bg-indigo-50 text-indigo-700 font-bold text-base px-8 py-4 rounded-xl transition-colors"
+            >
+              Learn How to Become a Pro Dungeon Master
+            </Link>
+          </div>
+        </section>
       </main>
 
       <Footer />
