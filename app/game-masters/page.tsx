@@ -4,6 +4,7 @@ import { useState } from "react";
 import { GMS, GAMES, GM } from "@/lib/data";
 import GMModal from "@/components/GMModal";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useRequireAuth } from "@/lib/useRequireAuth";
 
 export default function GameMastersPage() {
@@ -102,9 +103,7 @@ export default function GameMastersPage() {
         </div>
       </main>
 
-      <footer className="border-t border-zinc-100 py-8 mt-12">
-        <p className="text-center text-sm text-zinc-400">© 2026 QuestBoard · The Tabletop RPG Marketplace</p>
-      </footer>
+      <Footer />
 
       {selectedGM && (
         <GMModal gm={selectedGM} onClose={() => setSelectedGM(null)} />

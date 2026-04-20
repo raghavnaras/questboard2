@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useRequireAuth } from "@/lib/useRequireAuth";
 
 const BENEFITS = [
@@ -131,6 +132,51 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <section className="max-w-5xl mx-auto px-6 py-20">
+          <h2 className="text-3xl font-bold text-zinc-900 mb-10 text-center">Frequently Asked Questions</h2>
+          <div className="max-w-2xl mx-auto divide-y divide-zinc-100">
+            {[
+              {
+                q: "Do I need experience to join a game?",
+                a: "Not at all. Many of our GMs specialise in new players and actively enjoy teaching the rules. Filter for 'New Player Friendly' games and look for GMs who offer a free Session Zero — a pre-game meeting to build your character and learn the basics before the adventure begins.",
+              },
+              {
+                q: "What is a Session Zero?",
+                a: "Session Zero is a free introductory session where the GM and players meet, align on tone, content expectations, and safety tools, and build characters together. Many GMs on QuestBoard offer this as a standard part of joining their games.",
+              },
+              {
+                q: "What games can I find on QuestBoard?",
+                a: "We host games across dozens of systems — from D&D 5e and Pathfinder to Call of Cthulhu, Vampire: The Masquerade, Cyberpunk Red, Lancer, Blades in the Dark, and many more. Use the system filter on the Browse Games page to find exactly what you're looking for.",
+              },
+              {
+                q: "How are Game Masters vetted?",
+                a: "Every GM on QuestBoard is reviewed by real players after each session. You can see their star rating, number of reviews, games hosted, and response rate directly on their profile before booking. We also maintain community standards and investigate reports of misconduct.",
+              },
+              {
+                q: "Can I join a game that's already in progress?",
+                a: "Yes — many GMs actively recruit mid-campaign. These listings will note the current party level and story context so you can jump in as a new character. GMs typically offer a recap and smooth onboarding for late joiners.",
+              },
+              {
+                q: "What do I need to play online?",
+                a: "Usually just Discord for voice chat and a virtual tabletop like Roll20 or Foundry VTT — both free to use as a player. Some GMs use simpler setups like DnDBeyond and a video call. Each game listing specifies the platform, so you'll know before you book.",
+              },
+              {
+                q: "What is your refund policy?",
+                a: "Refund eligibility depends on the individual GM's cancellation policy, disclosed at booking. QuestBoard will issue refunds at its discretion in cases of a GM no-show or verified misconduct. See our Terms of Service for full details.",
+              },
+            ].map(({ q, a }) => (
+              <details key={q} className="group py-5 cursor-pointer">
+                <summary className="flex items-center justify-between gap-4 text-base font-semibold text-zinc-900 list-none">
+                  {q}
+                  <span className="text-zinc-400 group-open:rotate-180 transition-transform shrink-0 text-xl leading-none">⌄</span>
+                </summary>
+                <p className="mt-3 text-sm text-zinc-500 leading-relaxed">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         {/* Bottom CTA */}
         <section className="max-w-5xl mx-auto px-6 py-20 text-center">
           <h2 className="text-3xl font-bold text-zinc-900 mb-4">Ready to roll?</h2>
@@ -152,9 +198,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-100 py-8">
-        <p className="text-center text-sm text-zinc-400">© 2026 QuestBoard · The Tabletop RPG Marketplace</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
