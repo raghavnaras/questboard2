@@ -23,7 +23,7 @@ export default function GamesPage() {
 
 function GamesPageInner() {
   const { ready, user } = useRequireAuth();
-  const { games, joinedGameIds, joinGame, myGames } = useGameStore();
+  const { games, joinedGameIds, joinGame, myGames, hydrated } = useGameStore();
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [systemFilter, setSystemFilter] = useState<string | null>(null);
   const [seatsFilter, setSeatsFilter] = useState(0);
@@ -50,7 +50,7 @@ function GamesPageInner() {
     ? games.find((g) => g.id === selectedGame.id) ?? null
     : null;
 
-  if (!ready || !user) return null;
+  if (!ready || !user || !hydrated) return null;
 
   return (
     <div className="min-h-screen bg-zinc-50">
