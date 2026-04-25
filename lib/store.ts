@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { GAMES, Game } from "./data";
+import { Game } from "./data";
 
 const REGISTRATIONS_KEY = "questboard:registrations";
 const SEAT_COUNTS_KEY = "questboard:seatCounts";
@@ -32,14 +32,14 @@ function saveSeatCounts(counts: Record<string, number>) {
   localStorage.setItem(SEAT_COUNTS_KEY, JSON.stringify(counts));
 }
 
-function buildGames(seatCounts: Record<string, number>): Game[] {
-  return GAMES.map((g) =>
+function buildGames(seatCounts: Record<string, number>, baseGames: Game[]): Game[] {
+  return baseGames.map((g) =>
     g.id in seatCounts ? { ...g, seatsAvailable: seatCounts[g.id] } : g
   );
 }
 
-export function useGameStore() {
-  const [games, setGames] = useState<Game[]>(GAMES);
+export function useGameStore(initialGames: Game[]) {
+  const [games, setGames] = useState<Game[]>(initialGames);
   const [joinedGameIds, setJoinedGameIds] = useState<Set<string>>(new Set());
   const [hydrated, setHydrated] = useState(false);
 
@@ -48,8 +48,9 @@ export function useGameStore() {
     const registrations = loadRegistrations();
     const seatCounts = loadSeatCounts();
     setJoinedGameIds(registrations);
-    setGames(buildGames(seatCounts));
+    setGames(buildGames(seatCounts, initialGames));
     setHydrated(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const joinGame = useCallback((gameId: string) => {
@@ -59,7 +60,6 @@ export function useGameStore() {
           ? { ...g, seatsAvailable: g.seatsAvailable - 1 }
           : g
       );
-      // Persist updated seat counts
       const counts: Record<string, number> = {};
       next.forEach((g) => { counts[g.id] = g.seatsAvailable; });
       saveSeatCounts(counts);

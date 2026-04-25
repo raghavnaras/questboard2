@@ -132,6 +132,23 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Demo CTA */}
+        <section className="max-w-5xl mx-auto px-6 py-12">
+          <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-8 text-center">
+            <span className="text-4xl block mb-3">🎮</span>
+            <h2 className="text-xl font-bold text-zinc-900 mb-2">Not sure yet? Try a demo game</h2>
+            <p className="text-sm text-zinc-500 max-w-md mx-auto mb-6">
+              Get a feel for QuestBoard with a quick mini-game before you book your first real session.
+            </p>
+            <Link
+              href="/games/demo"
+              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base px-8 py-3 rounded-xl shadow-md hover:shadow-lg transition-all"
+            >
+              Play Demo Quest →
+            </Link>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section className="max-w-5xl mx-auto px-6 py-20">
           <h2 className="text-3xl font-bold text-zinc-900 mb-10 text-center">Frequently Asked Questions</h2>

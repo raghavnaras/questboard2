@@ -1,8 +1,6 @@
 "use client";
 
-import { GAMES, GAME_CATEGORIES, GameCategory, CATEGORY_STYLES } from "@/lib/data";
-
-const SYSTEMS = Array.from(new Set(GAMES.map((g) => g.system))).sort();
+import { GAME_CATEGORIES, GameCategory, CATEGORY_STYLES } from "@/lib/data";
 
 const SEAT_OPTIONS = [
   { label: "Any Seats", value: 0 },
@@ -12,6 +10,7 @@ const SEAT_OPTIONS = [
 ];
 
 interface Props {
+  systems: string[];
   systemFilter: string | null;
   seatsFilter: number;
   categoryFilter: GameCategory | null;
@@ -21,6 +20,7 @@ interface Props {
 }
 
 export default function FilterBar({
+  systems,
   systemFilter,
   seatsFilter,
   categoryFilter,
@@ -75,7 +75,7 @@ export default function FilterBar({
           >
             All Systems
           </button>
-          {SYSTEMS.map((sys) => (
+          {systems.map((sys) => (
             <button
               key={sys}
               onClick={() => onSystemChange(systemFilter === sys ? null : sys)}
