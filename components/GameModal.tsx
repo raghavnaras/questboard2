@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Game } from "@/lib/data";
+import { Game, CATEGORY_STYLES } from "@/lib/data";
 
 const SYSTEM_COLORS: Record<string, string> = {
   "D&D 5e": "bg-red-100 text-red-700",
@@ -40,6 +40,7 @@ export default function GameModal({ game, joined, onJoin, onClose }: Props) {
   }, [onClose]);
 
   const systemColor = SYSTEM_COLORS[game.system] ?? "bg-purple-100 text-purple-700";
+  const categoryStyle = CATEGORY_STYLES[game.category];
   const seatsLeft = game.seatsAvailable;
 
   return (
@@ -56,9 +57,15 @@ export default function GameModal({ game, joined, onJoin, onClose }: Props) {
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white/95 backdrop-blur border-b border-zinc-100 px-6 pt-5 pb-4 flex items-start justify-between gap-4 z-10">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
               <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${systemColor}`}>
                 {game.system}
+              </span>
+              <span
+                className={`text-xs font-semibold px-2.5 py-1 rounded-full border flex items-center gap-1 ${categoryStyle.className}`}
+              >
+                <span aria-hidden>{categoryStyle.emoji}</span>
+                <span>{game.category}</span>
               </span>
               {joined && (
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-700">

@@ -1,5 +1,34 @@
 export type GameSystem = string;
 
+export type GameCategory =
+  | "Action"
+  | "Adventure"
+  | "Horror"
+  | "Mystery"
+  | "Drama"
+  | "Comedy"
+  | "Sci-Fi";
+
+export const GAME_CATEGORIES: GameCategory[] = [
+  "Action",
+  "Adventure",
+  "Horror",
+  "Mystery",
+  "Drama",
+  "Comedy",
+  "Sci-Fi",
+];
+
+export const CATEGORY_STYLES: Record<GameCategory, { emoji: string; className: string }> = {
+  Action: { emoji: "⚔️", className: "bg-red-50 text-red-700 border-red-200" },
+  Adventure: { emoji: "🗺️", className: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  Horror: { emoji: "🕯️", className: "bg-zinc-900 text-zinc-100 border-zinc-900" },
+  Mystery: { emoji: "🔍", className: "bg-indigo-50 text-indigo-700 border-indigo-200" },
+  Drama: { emoji: "🎭", className: "bg-rose-50 text-rose-700 border-rose-200" },
+  Comedy: { emoji: "😂", className: "bg-amber-50 text-amber-700 border-amber-200" },
+  "Sci-Fi": { emoji: "🚀", className: "bg-cyan-50 text-cyan-700 border-cyan-200" },
+};
+
 export interface GM {
   id: string;
   name: string;
@@ -28,6 +57,7 @@ export interface Game {
   id: string;
   title: string;
   system: GameSystem;
+  category: GameCategory;
   gm: GM;
   dateTime: string;
   totalSeats: number;
@@ -507,6 +537,7 @@ export const GAMES: Game[] = [
     id: "g1",
     title: "Ocarina of Time – Master Quest Legend of Zelda 5e",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[0],
     dateTime: "2026-04-22T18:00:00",
     totalSeats: 5,
@@ -521,6 +552,7 @@ export const GAMES: Game[] = [
     id: "g2",
     title: "Descent Into Avernus – Level 1–12",
     system: "D&D 5e",
+    category: "Action",
     gm: GMS[1],
     dateTime: "2026-04-23T19:00:00",
     totalSeats: 4,
@@ -535,6 +567,7 @@ export const GAMES: Game[] = [
     id: "g3",
     title: "Into the Pirate Haven | Beginner Friendly",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[2],
     dateTime: "2026-04-24T14:00:00",
     totalSeats: 4,
@@ -549,6 +582,7 @@ export const GAMES: Game[] = [
     id: "g4",
     title: "Dungeons of Drakkenheim – New Campaign",
     system: "D&D 5e",
+    category: "Horror",
     gm: GMS[3],
     dateTime: "2026-04-25T19:00:00",
     totalSeats: 5,
@@ -563,6 +597,7 @@ export const GAMES: Game[] = [
     id: "g5",
     title: "Legends of Night City: Cyberpunk Red",
     system: "Cyberpunk Red",
+    category: "Sci-Fi",
     gm: GMS[4],
     dateTime: "2026-04-26T20:00:00",
     totalSeats: 5,
@@ -577,6 +612,7 @@ export const GAMES: Game[] = [
     id: "g6",
     title: "Legends of Luxor – Original Campaign Level 1–15",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[5],
     dateTime: "2026-04-27T13:00:00",
     totalSeats: 5,
@@ -591,6 +627,7 @@ export const GAMES: Game[] = [
     id: "g7",
     title: "The Wild Beyond the Witchlight [lvl 1–8, FREE Session 0]",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[6],
     dateTime: "2026-04-27T19:00:00",
     totalSeats: 5,
@@ -605,6 +642,7 @@ export const GAMES: Game[] = [
     id: "g8",
     title: "Dolmenwood: Of Mushrooms & Mandrake Root",
     system: "Old-School Essentials",
+    category: "Mystery",
     gm: GMS[7],
     dateTime: "2026-04-28T15:00:00",
     totalSeats: 5,
@@ -619,6 +657,7 @@ export const GAMES: Game[] = [
     id: "g9",
     title: "Carnage in the Cascades",
     system: "Deadlands",
+    category: "Horror",
     gm: GMS[8],
     dateTime: "2026-04-28T20:00:00",
     totalSeats: 5,
@@ -633,6 +672,7 @@ export const GAMES: Game[] = [
     id: "g10",
     title: "Shifting Sands – Desert Mysteries [Homebrew, Free Session 0]",
     system: "D&D 5e",
+    category: "Mystery",
     gm: GMS[9],
     dateTime: "2026-04-29T18:00:00",
     totalSeats: 5,
@@ -647,6 +687,7 @@ export const GAMES: Game[] = [
     id: "g11",
     title: "Columbia By Night: A Hunter Chronicle",
     system: "Hunter: The Reckoning",
+    category: "Horror",
     gm: GMS[10],
     dateTime: "2026-04-30T20:00:00",
     totalSeats: 4,
@@ -661,6 +702,7 @@ export const GAMES: Game[] = [
     id: "g12",
     title: "The Lucky Bastion Presents: Curse of Strahd",
     system: "D&D 5e",
+    category: "Horror",
     gm: GMS[11],
     dateTime: "2026-05-01T19:00:00",
     totalSeats: 5,
@@ -675,6 +717,7 @@ export const GAMES: Game[] = [
     id: "g13",
     title: "The Module For You",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[12],
     dateTime: "2026-05-01T14:00:00",
     totalSeats: 5,
@@ -689,6 +732,7 @@ export const GAMES: Game[] = [
     id: "g14",
     title: "Baker's Doesn'ts – A Sweet One-Shot With Teeth",
     system: "D&D 5e",
+    category: "Comedy",
     gm: GMS[13],
     dateTime: "2026-05-02T19:00:00",
     totalSeats: 4,
@@ -703,6 +747,7 @@ export const GAMES: Game[] = [
     id: "g15",
     title: "Vecna: Prequel and Eve of Ruin",
     system: "D&D 5e",
+    category: "Drama",
     gm: GMS[14],
     dateTime: "2026-05-02T20:00:00",
     totalSeats: 5,
@@ -717,6 +762,7 @@ export const GAMES: Game[] = [
     id: "g16",
     title: "Lancer – Operation Solstice Rain & Winter Scar",
     system: "Lancer",
+    category: "Sci-Fi",
     gm: GMS[15],
     dateTime: "2026-05-03T13:00:00",
     totalSeats: 4,
@@ -731,6 +777,7 @@ export const GAMES: Game[] = [
     id: "g17",
     title: "Buried Secrets of Emberdeep (3-Session Arc)",
     system: "Pathfinder 1e",
+    category: "Mystery",
     gm: GMS[16],
     dateTime: "2026-05-04T19:00:00",
     totalSeats: 4,
@@ -745,6 +792,7 @@ export const GAMES: Game[] = [
     id: "g18",
     title: "Crestfallen Prince",
     system: "D&D 5e",
+    category: "Mystery",
     gm: GMS[17],
     dateTime: "2026-05-05T20:00:00",
     totalSeats: 5,
@@ -759,6 +807,7 @@ export const GAMES: Game[] = [
     id: "g19",
     title: "Lost Mines of Phandelver – New to D&D Friendly",
     system: "D&D 5e",
+    category: "Adventure",
     gm: GMS[18],
     dateTime: "2026-05-06T14:00:00",
     totalSeats: 5,
@@ -773,6 +822,7 @@ export const GAMES: Game[] = [
     id: "g20",
     title: "Age of Ashes: Cult of Cinders (Level 6 Entry)",
     system: "D&D 5e",
+    category: "Action",
     gm: GMS[19],
     dateTime: "2026-05-07T18:00:00",
     totalSeats: 5,

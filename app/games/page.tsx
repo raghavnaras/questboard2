@@ -4,7 +4,7 @@ import { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useGameStore } from "@/lib/store";
-import { Game, GMS } from "@/lib/data";
+import { Game, GMS, GameCategory } from "@/lib/data";
 import GameCard from "@/components/GameCard";
 import GameModal from "@/components/GameModal";
 import FilterBar from "@/components/FilterBar";
@@ -27,6 +27,7 @@ function GamesPageInner() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [systemFilter, setSystemFilter] = useState<string | null>(null);
   const [seatsFilter, setSeatsFilter] = useState(0);
+  const [categoryFilter, setCategoryFilter] = useState<GameCategory | null>(null);
 
   const searchParams = useSearchParams();
   const gmFilter = searchParams.get("gm");
@@ -36,10 +37,11 @@ function GamesPageInner() {
     return games.filter((g) => {
       if (gmFilter && g.gm.id !== gmFilter) return false;
       if (systemFilter && g.system !== systemFilter) return false;
+      if (categoryFilter && g.category !== categoryFilter) return false;
       if (seatsFilter > 0 && g.seatsAvailable < seatsFilter) return false;
       return true;
     });
-  }, [games, gmFilter, systemFilter, seatsFilter]);
+  }, [games, gmFilter, systemFilter, categoryFilter, seatsFilter]);
 
   function handleJoin() {
     if (!selectedGame) return;
@@ -86,8 +88,10 @@ function GamesPageInner() {
           <FilterBar
             systemFilter={systemFilter}
             seatsFilter={seatsFilter}
+            categoryFilter={categoryFilter}
             onSystemChange={setSystemFilter}
             onSeatsChange={setSeatsFilter}
+            onCategoryChange={setCategoryFilter}
           />
         </section>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Game } from "@/lib/data";
+import { Game, CATEGORY_STYLES } from "@/lib/data";
 
 const SYSTEM_COLORS: Record<string, string> = {
   "D&D 5e": "bg-red-100 text-red-700",
@@ -36,6 +36,7 @@ interface Props {
 
 export default function GameCard({ game, joined, onClick }: Props) {
   const systemColor = SYSTEM_COLORS[game.system] ?? "bg-purple-100 text-purple-700";
+  const categoryStyle = CATEGORY_STYLES[game.category];
   const seatsLeft = game.seatsAvailable;
   const seatsColor =
     seatsLeft === 0
@@ -51,9 +52,17 @@ export default function GameCard({ game, joined, onClick }: Props) {
     >
       <div className="p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${systemColor}`}>
-            {game.system}
-          </span>
+          <div className="flex flex-wrap gap-1.5">
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${systemColor}`}>
+              {game.system}
+            </span>
+            <span
+              className={`text-xs font-semibold px-2.5 py-1 rounded-full border shrink-0 flex items-center gap-1 ${categoryStyle.className}`}
+            >
+              <span aria-hidden>{categoryStyle.emoji}</span>
+              <span>{game.category}</span>
+            </span>
+          </div>
           {joined && (
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-700 shrink-0">
               Joined ✓
