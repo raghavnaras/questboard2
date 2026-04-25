@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabase } from "./supabase";
 import { Game, GM } from "./data";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,7 +48,7 @@ function rowToGame(row: any): Game {
 }
 
 export async function fetchGames(): Promise<Game[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("games")
     .select("*, gm:game_masters(*)")
     .order("date_time", { ascending: true });
@@ -58,7 +58,7 @@ export async function fetchGames(): Promise<Game[]> {
 }
 
 export async function fetchGMs(): Promise<GM[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("game_masters")
     .select("*")
     .order("name", { ascending: true });
