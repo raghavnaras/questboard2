@@ -96,15 +96,9 @@ export default class TicTacToeServer implements Party.Server {
 
   broadcast() {
     const playerCount = Object.keys(this.players).length;
-    for (const [connId, symbol] of Object.entries(this.players)) {
-      const conn = this.party.getConnection(connId);
-      conn?.send(JSON.stringify({ type: "state", ...this.game, mySymbol: symbol, playerCount }));
-    }
-    // Also send to spectators (no symbol assigned)
     for (const conn of this.party.getConnections()) {
-      if (!this.players[conn.id]) {
-        conn.send(JSON.stringify({ type: "state", ...this.game, mySymbol: null, playerCount }));
-      }
+      const symbol = this.players[conn.id] ?? null;
+      conn.send(JSON.stringify({ type: "state", ...this.game, mySymbol: symbol, playerCount }));
     }
   }
 }
