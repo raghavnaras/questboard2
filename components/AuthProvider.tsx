@@ -31,18 +31,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    getSupabase().auth.getSession().then(({ data }) => {
-      setUser(toUser(data.session?.user));
+    let sub: { unsubscribe: () => void } | null = null;
+    try {
+      const client = getSupabase();
+      client.auth.getSession().then(({ data }) => {
+        setUser(toUser(data.session?.user));
+        setReady(true);
+      });
+      const { data } = client.auth.onAuthStateChange((_event, session) => {
+        setUser(toUser(session?.user));
+      });
+      sub = data.subscription;
+    } catch {
       setReady(true);
-    });
-
-    const {
-      data: { subscription },
-    } = getSupabase().auth.onAuthStateChange((_event, session) => {
-      setUser(toUser(session?.user));
-    });
-
-    return () => subscription.unsubscribe();
+    }
+    return () => sub?.unsubscribe();
   }, []);
 
   return (
