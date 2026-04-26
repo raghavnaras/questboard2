@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabase } from "./supabase";
 
 export interface User {
   id: string;
@@ -10,7 +10,7 @@ export async function signIn(
   email: string,
   password: string
 ): Promise<{ user: User | null; error: string | null }> {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await getSupabase().auth.signInWithPassword({ email, password });
   if (error) return { user: null, error: error.message };
   const u = data.user;
   return {
@@ -24,7 +24,7 @@ export async function signUp(
   email: string,
   password: string
 ): Promise<{ user: User | null; error: string | null; needsEmailConfirmation?: boolean }> {
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await getSupabase().auth.signUp({
     email,
     password,
     options: { data: { name } },
