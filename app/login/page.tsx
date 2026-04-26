@@ -7,7 +7,7 @@ import { signIn } from "@/lib/auth";
 import { useAuth } from "@/components/AuthProvider";
 
 export default function LoginPage() {
-  const { user, ready, refresh } = useAuth();
+  const { user, ready } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,16 +23,13 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 400));
-
-    const result = signIn(email, password);
-    if (!result) {
+    const { error } = await signIn(email, password);
+    if (error) {
       setError("Invalid email or password.");
       setLoading(false);
       return;
     }
 
-    refresh();
     router.push("/");
   }
 

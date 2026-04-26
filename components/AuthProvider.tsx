@@ -1,42 +1,58 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-import { User, getCurrentUser, clearCurrentUser } from "@/lib/auth";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { supabase } from "@/lib/supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import type { User } from "@/lib/auth";
 
 interface AuthContextValue {
   user: User | null;
   ready: boolean;
-  refresh: () => void;
-  signOut: () => void;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   ready: false,
-  refresh: () => {},
-  signOut: () => {},
+  signOut: async () => {},
 });
+
+function toUser(u: SupabaseUser | null | undefined): User | null {
+  if (!u) return null;
+  return {
+    id: u.id,
+    name: u.user_metadata?.name ?? u.email ?? "",
+    email: u.email!,
+  };
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
 
-  const refresh = useCallback(() => {
-    setUser(getCurrentUser());
-  }, []);
-
-  const signOut = useCallback(() => {
-    clearCurrentUser();
-    setUser(null);
-  }, []);
-
   useEffect(() => {
-    setUser(getCurrentUser());
-    setReady(true);
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(toUser(data.session?.user));
+      setReady(true);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(toUser(session?.user));
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, ready, refresh, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        ready,
+        signOut: () => supabase.auth.signOut().then(() => {}),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

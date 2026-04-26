@@ -7,13 +7,14 @@ import { signUp } from "@/lib/auth";
 import { useAuth } from "@/components/AuthProvider";
 
 export default function SignupPage() {
-  const { user, ready, refresh } = useAuth();
+  const { user, ready } = useAuth();
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [confirmationSent, setConfirmationSent] = useState(false);
 
   useEffect(() => {
     if (ready && user) router.replace("/");
@@ -24,17 +25,37 @@ export default function SignupPage() {
     setError("");
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 400));
-
-    const result = signUp(name, email, password);
-    if (!result) {
-      setError("An account with that email already exists.");
+    const { error, needsEmailConfirmation } = await signUp(name, email, password);
+    if (error) {
+      setError(error);
       setLoading(false);
       return;
     }
 
-    refresh();
+    if (needsEmailConfirmation) {
+      setConfirmationSent(true);
+      setLoading(false);
+      return;
+    }
+
     router.push("/");
+  }
+
+  if (confirmationSent) {
+    return (
+      <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center px-4">
+        <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm w-full max-w-sm p-8 text-center">
+          <p className="text-3xl mb-4">📬</p>
+          <h1 className="text-xl font-bold text-zinc-900 mb-2">Check your email</h1>
+          <p className="text-sm text-zinc-500">
+            We sent a confirmation link to <span className="font-medium text-zinc-700">{email}</span>. Click it to activate your account.
+          </p>
+          <Link href="/login" className="mt-6 inline-block text-sm text-indigo-600 hover:text-indigo-700 font-semibold">
+            Back to sign in
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
