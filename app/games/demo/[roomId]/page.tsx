@@ -114,9 +114,10 @@ export default function MultiplayerDemoPage({ params }: { params: Promise<{ room
           </p>
         </div>
 
-        {/* Share link */}
-        {game.status === "waiting" && game.mySymbol && (
+        {/* Share link — always visible so opponent can join */}
+        {game.playerCount < 2 && (
           <div className="max-w-sm mx-auto mb-8">
+            <p className="text-xs text-zinc-400 text-center mb-2">Share this link with your opponent</p>
             <div className="bg-white border border-zinc-200 rounded-2xl p-4 flex items-center gap-3">
               <p className="text-xs text-zinc-500 font-mono truncate flex-1">{typeof window !== "undefined" ? window.location.href : ""}</p>
               <button
